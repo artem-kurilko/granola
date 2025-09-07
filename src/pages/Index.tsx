@@ -50,7 +50,18 @@ const Index = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
+  };
+
+  const openCart = () => {
+    const cartTrigger = document.querySelector('[data-cart-sheet-trigger]');
+    if (cartTrigger) {
+      cartTrigger.dispatchEvent(new Event('click'));
     }
   };
 
@@ -65,17 +76,37 @@ const Index = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <button onClick={() => scrollToSection("products")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Продукти</button>
-            <button onClick={() => scrollToSection("about")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Про нас</button>
-            <button onClick={() => scrollToSection("reviews")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Відгуки</button>
-            <button onClick={() => scrollToSection("delivery")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Доставка</button>
+            <button 
+              onClick={() => scrollToSection("products")} 
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+            >
+              Продукти
+            </button>
+            <button 
+              onClick={() => scrollToSection("about")} 
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+            >
+              Про нас
+            </button>
+            <button 
+              onClick={() => scrollToSection("reviews")} 
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+            >
+              Відгуки
+            </button>
+            <button 
+              onClick={() => scrollToSection("delivery")} 
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+            >
+              Доставка
+            </button>
           </nav>
           
           <div className="flex items-center space-x-4">
             <CartSheet />
             <Button 
-              className="bg-amber-600 hover:bg-amber-700 text-white"
-              onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+              className="bg-amber-600 hover:bg-amber-700 text-white transition-all duration-300"
+              onClick={openCart}
             >
               Замовити
             </Button>
@@ -97,14 +128,14 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button 
-                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8"
-                onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 transition-all duration-300"
+                onClick={openCart}
               >
                 Замовити зараз
               </Button>
               <Button 
                 variant="outline" 
-                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8"
+                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 transition-all duration-300"
                 onClick={() => scrollToSection("products")}
               >
                 Дізнатись більше
@@ -338,8 +369,8 @@ const Index = () => {
             Зробіть замовлення прямо зараз і отримайте знижку 10% на перше замовлення
           </p>
           <Button 
-            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold"
-            onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold transition-all duration-300"
+            onClick={openCart}
           >
             Замовити зі знижкою
           </Button>
@@ -388,6 +419,7 @@ const Index = () => {
                 <li><a href="#" className="hover:text-amber-300 transition-colors">Доставка та оплата</a></li>
                 <li><a href="#" className="hover:text-amber-300 transition-colors">Відгуки</a></li>
                 <li><a href="#" className="hover:text-amber-300 transition-colors">Контакти</a></li>
+                <li><a href="/public-offer" className="hover:text-amber-300 transition-colors">Публічна оферта</a></li>
               </ul>
             </div>
             
