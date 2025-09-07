@@ -53,7 +53,9 @@ const Index = () => {
       element.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start',
-        inline: 'nearest'
+        inline: 'nearest',
+        // Уменьшаем скорость скролла
+        behavior: 'smooth'
       });
     }
   };
@@ -78,25 +80,25 @@ const Index = () => {
           <nav className="hidden md:flex space-x-8">
             <button 
               onClick={() => scrollToSection("products")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
             >
               Продукти
             </button>
             <button 
               onClick={() => scrollToSection("about")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
             >
               Про нас
             </button>
             <button 
               onClick={() => scrollToSection("reviews")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
             >
               Відгуки
             </button>
             <button 
               onClick={() => scrollToSection("delivery")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
             >
               Доставка
             </button>
@@ -105,7 +107,7 @@ const Index = () => {
           <div className="flex items-center space-x-4">
             <CartSheet />
             <Button 
-              className="bg-amber-600 hover:bg-amber-700 text-white transition-all duration-300"
+              className="bg-amber-600 hover:bg-amber-700 text-white transition-all duration-500"
               onClick={openCart}
             >
               Замовити
@@ -128,14 +130,14 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button 
-                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 transition-all duration-300"
+                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 transition-all duration-500"
                 onClick={openCart}
               >
                 Замовити зараз
               </Button>
               <Button 
                 variant="outline" 
-                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 transition-all duration-300"
+                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 transition-all duration-500"
                 onClick={() => scrollToSection("products")}
               >
                 Дізнатись більше
@@ -369,7 +371,7 @@ const Index = () => {
             Зробіть замовлення прямо зараз і отримайте знижку 10% на перше замовлення
           </p>
           <Button 
-            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold transition-all duration-300"
+            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold transition-all duration-500"
             onClick={openCart}
           >
             Замовити зі знижкою

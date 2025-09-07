@@ -117,6 +117,128 @@ const PublicOffer = () => {
               Телефон: +380 (44) 123-45-67<br />
               Email: info@granola-house.ua<br />
               ІПН: 1234567890<br />
+              Р/р: UA12345678901234I need to complete the PublicOffer page and fix the LiqPay integration properly. Let me finish the implementation:
+
+<dyad-write path="src/pages/PublicOffer.tsx" description="Completing public offer page">
+"use client";
+
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+
+const PublicOffer = () => {
+  return (
+    <div className="min-h-screen bg-amber-50 py-8">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center mb-6">
+          <Link to="/">
+            <Button variant="ghost" className="text-amber-800">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Повернутись до магазину
+            </Button>
+          </Link>
+        </div>
+
+        <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
+          <h1 className="text-3xl font-bold text-amber-900 mb-6 text-center">Публічна оферта</h1>
+          
+          <div className="prose max-w-none">
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">1. Загальні положення</h2>
+            <p className="mb-4">
+              Цей документ є публічною офertoю (далі – «Оферта») і визначає умови придбання товарів 
+              через інтернет-магазин Granola House (далі – «Продавець»). Відповідно до статті 633 Цивільного 
+              кодексу України, цей документ є публічним договором-офертoю щодо укладення договору купівлі-продажу.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">2. Предмет договору</h2>
+            <p className="mb-4">
+              Продавець зобов'язується передати в належний строк, а Покупець зобов'язується оплатити 
+              і прийняти товари, представлені в асортименті інтернет-магазину.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">3. Оформлення замовлення</h2>
+            <p className="mb-4">
+              3.1. Замовлення оформляється Покупцем самостійно через сайт інтернет-магазину або за 
+              телефоном, вказаним на сайті.
+            </p>
+            <p className="mb-4">
+              3.2. При оформленні замовлення Покупець зобов'язується надати наступну обов'язкову інформацію:
+            </p>
+            <ul className="list-disc pl-6 mb-4">
+              <li>прізвище, ім'я, по батькові Покупця;</li>
+              <li>адреса, за якою слід доставити товар;</li>
+              <li>контактний телефон;</li>
+              <li>електронна адреса (за бажанням).</li>
+            </ul>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">4. Ціна і оплата товару</h2>
+            <p className="mb-4">
+              4.1. Ціна на кожен товар вказана на сайті інтернет-магазину. Ціна вказана в гривнях України.
+            </p>
+            <p className="mb-4">
+              4.2. Оплата товарів здійснюється в наступних формах:
+            </p>
+            <ul className="list-disc pl-6 mb-4">
+              <li>готівковий розрахунок при отриманні товару;</li>
+              <li>оплата банківською карткою онлайн;</li>
+              <li>оплата через електронні платіжні системи.</li>
+            </ul>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">5. Доставка товару</h2>
+            <p className="mb-4">
+              5.1. Доставка товарів здійснюється кур'єрськими службами до адреси, вказаної Покупцем.
+            </p>
+            <p className="mb-4">
+              5.2. Вартість доставки розраховується в залежності від обраного способу доставки та 
+              відображається при оформленні замовлення.
+            </p>
+            <p className="mb-4">
+              5.3. Термін доставки залежить від обраного способу доставки та регіону Покупця.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">6. Повернення товару</h2>
+            <p className="mb-4">
+              6.1. Повернення товару здійснюється відповідно до Закону України «Про захист прав споживача».
+            </p>
+            <p className="mb-4">
+              6.2. Покупець має право повернути товар протягом 14 днів з моменту отримання.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">7. Гарантії</h2>
+            <p className="mb-4">
+              7.1. Продавець гарантує, що товар відповідає опису на сайті і придатний для використання 
+              за призначенням.
+            </p>
+            <p className="mb-4">
+              7.2. Гарантійний термін на харчові продукти встановлюється відповідно до законодавства України.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">8. Відповідальність сторін</h2>
+            <p className="mb-4">
+              8.1. Продавець несе відповідальність за неналежне виконання або невиконання своїх зобов'язань 
+              відповідно до чинного законодавства України.
+            </p>
+            <p className="mb-4">
+              8.2. Покупець несе відповідальність за достовірність наданої інформації при оформленні замовлення.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">9. Інші умови</h2>
+            <p className="mb-4">
+              9.1. Усі спори вирішуються шляхом переговорів. У разі недосягнення згоди спір передається 
+              на розгляд до суду відповідно до чинного законодавства України.
+            </p>
+            <p className="mb-4">
+              9.2. Продавець має право вносити зміни в цю Оферту в односторонньому порядку, 
+              попередньо розмістивши їх на сайті інтернет-магазину.
+            </p>
+            
+            <h2 className="text-xl font-bold text-amber-800 mt-8 mb-4">10. Реквізити продавця</h2>
+            <p className="mb-4">
+              ФОП Іванов Іван Іванович<br />
+              Адреса: м. Київ, вул. Прикладна, 123<br />
+              Телефон: +380 (44) 123-45-67<br />
+              Email: info@granola-house.ua<br />
+              ІПН: 1234567890<br />
               Р/р: UA123456789012345678901234567<br />
               Банк: ПриватБанк
             </p>
