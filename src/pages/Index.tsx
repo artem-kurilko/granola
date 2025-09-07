@@ -52,10 +52,7 @@ const Index = () => {
     if (element) {
       element.scrollIntoView({ 
         behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-        // Уменьшаем скорость скролла
-        behavior: 'smooth'
+        block: 'start'
       });
     }
   };
@@ -80,25 +77,25 @@ const Index = () => {
           <nav className="hidden md:flex space-x-8">
             <button 
               onClick={() => scrollToSection("products")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
             >
               Продукти
             </button>
             <button 
               onClick={() => scrollToSection("about")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
             >
               Про нас
             </button>
             <button 
               onClick={() => scrollToSection("reviews")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
             >
               Відгуки
             </button>
             <button 
               onClick={() => scrollToSection("delivery")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-500"
+              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
             >
               Доставка
             </button>
@@ -107,7 +104,7 @@ const Index = () => {
           <div className="flex items-center space-x-4">
             <CartSheet />
             <Button 
-              className="bg-amber-600 hover:bg-amber-700 text-white transition-all duration-500"
+              className="bg-amber-600 hover:bg-amber-700 text-white"
               onClick={openCart}
             >
               Замовити
@@ -130,14 +127,14 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button 
-                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 transition-all duration-500"
+                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8"
                 onClick={openCart}
               >
                 Замовити зараз
               </Button>
               <Button 
                 variant="outline" 
-                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 transition-all duration-500"
+                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8"
                 onClick={() => scrollToSection("products")}
               >
                 Дізнатись більше
@@ -371,7 +368,7 @@ const Index = () => {
             Зробіть замовлення прямо зараз і отримайте знижку 10% на перше замовлення
           </p>
           <Button 
-            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold transition-all duration-500"
+            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold"
             onClick={openCart}
           >
             Замовити зі знижкою
@@ -407,20 +404,20 @@ const Index = () => {
             <div>
               <h4 className="text-lg font-bold text-white mb-4">Каталог</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Класична гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Шоколадна гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Фруктова гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Горіхова гранола</a></li>
+                <li><button onClick={() => scrollToSection("products")} className="hover:text-amber-300 transition-colors">Класична гранола</button></li>
+                <li><button onClick={() => scrollToSection("products")} className="hover:text-amber-300 transition-colors">Шоколадна гранола</button></li>
+                <li><button onClick={() => scrollToSection("products")} className="hover:text-amber-300 transition-colors">Фруктова гранола</button></li>
+                <li><button onClick={() => scrollToSection("products")} className="hover:text-amber-300 transition-colors">Горіхова гранола</button></li>
               </ul>
             </div>
             
             <div>
               <h4 className="text-lg font-bold text-white mb-4">Інформація</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Про нас</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Доставка та оплата</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Відгуки</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Контакти</a></li>
+                <li><button onClick={() => scrollToSection("about")} className="hover:text-amber-300 transition-colors">Про нас</button></li>
+                <li><button onClick={() => scrollToSection("delivery")} className="hover:text-amber-300 transition-colors">Доставка та оплата</button></li>
+                <li><button onClick={() => scrollToSection("reviews")} className="hover:text-amber-300 transition-colors">Відгуки</button></li>
+                <li><button onClick={() => scrollToSection("delivery")} className="hover:text-amber-300 transition-colors">Контакти</button></li>
                 <li><a href="/public-offer" className="hover:text-amber-300 transition-colors">Публічна оферта</a></li>
               </ul>
             </div>
