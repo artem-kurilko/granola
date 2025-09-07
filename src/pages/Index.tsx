@@ -6,9 +6,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { ShoppingCart, Leaf, Truck, Award } from "lucide-react";
 import CartSheet from "@/components/CartSheet";
 import ProductCard from "@/components/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [cartItems, setCartItems] = useState(0);
+  const navigate = useNavigate();
 
   const products = [
     {
@@ -64,6 +66,11 @@ const Index = () => {
     }
   };
 
+  const handleOrderNow = () => {
+    // Navigate to checkout page
+    navigate('/checkout');
+  };
+
   return (
     <div className="min-h-screen bg-amber-50">
       {/* Header */}
@@ -105,7 +112,7 @@ const Index = () => {
             <CartSheet />
             <Button 
               className="bg-amber-600 hover:bg-amber-700 text-white"
-              onClick={openCart}
+              onClick={handleOrderNow}
             >
               Замовити
             </Button>
@@ -128,7 +135,7 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button 
                 className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8"
-                onClick={openCart}
+                onClick={handleOrderNow}
               >
                 Замовити зараз
               </Button>
@@ -369,7 +376,7 @@ const Index = () => {
           </p>
           <Button 
             className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold"
-            onClick={openCart}
+            onClick={handleOrderNow}
           >
             Замовити зі знижкою
           </Button>
