@@ -28,7 +28,7 @@ const ProductCard = ({
 
   return (
     <Card 
-      className="overflow-hidden hover:shadow-lg transition-all duration-300"
+      className="overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -46,9 +46,9 @@ const ProductCard = ({
         )}
       </div>
       
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-amber-900">{name}</CardTitle>
-        <div className="flex items-center">
+        <div className="flex items-center mt-2">
           <div className="flex">
             {[...Array(5)].map((_, i) => (
               <Star 
@@ -61,13 +61,13 @@ const ProductCard = ({
         </div>
       </CardHeader>
       
-      <CardContent>
+      <CardContent className="flex-grow pb-4">
         <p className="text-amber-700 mb-4">{description}</p>
         <p className="text-2xl font-bold text-amber-900">{price} ₽</p>
       </CardContent>
       
       {!isHovered && (
-        <CardFooter>
+        <CardFooter className="pt-0">
           <Button 
             className="w-full bg-amber-600 hover:bg-amber-700 text-white"
             onClick={() => onAddToCart(id)}

@@ -63,10 +63,10 @@ const Index = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <a href="#products" className="text-amber-800 hover:text-amber-600 font-medium">Продукты</a>
-            <a href="#about" className="text-amber-800 hover:text-amber-600 font-medium">О нас</a>
-            <a href="#reviews" className="text-amber-800 hover:text-amber-600 font-medium">Отзывы</a>
-            <a href="#delivery" className="text-amber-800 hover:text-amber-600 font-medium">Доставка</a>
+            <a href="#products" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Продукты</a>
+            <a href="#about" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">О нас</a>
+            <a href="#reviews" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Отзывы</a>
+            <a href="#delivery" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Доставка</a>
           </nav>
           
           <div className="flex items-center space-x-4">
@@ -384,20 +384,20 @@ const Index = () => {
             <div>
               <h4 className="text-lg font-bold text-white mb-4">Каталог</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300">Классическая гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300">Шоколадная гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300">Фруктовая гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300">Ореховая гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Классическая гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Шоколадная гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Фруктовая гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Ореховая гранола</a></li>
               </ul>
             </div>
             
             <div>
               <h4 className="text-lg font-bold text-white mb-4">Информация</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300">О нас</a></li>
-                <li><a href="#" className="hover:text-amber-300">Доставка и оплата</a></li>
-                <li><a href="#" className="hover:text-amber-300">Отзывы</a></li>
-                <li><a href="#" className="hover:text-amber-300">Контакты</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">О нас</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Доставка и оплата</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Отзывы</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Контакты</a></li>
               </ul>
             </div>
             

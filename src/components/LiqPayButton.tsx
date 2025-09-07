@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface LiqPayButtonProps {
   amount: number;
@@ -20,6 +21,7 @@ const LiqPayButton = ({
   onError
 }: LiqPayButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handlePayment = () => {
     setIsLoading(true);
@@ -42,6 +44,8 @@ const LiqPayButton = ({
           description: "Ваш заказ оформлен. Мы свяжемся с вами в ближайшее время.",
         });
         onSuccess?.();
+        // Navigate to success page
+        navigate('/payment/success');
       } else {
         toast({
           title: "Ошибка оплаты",
@@ -49,6 +53,8 @@ const LiqPayButton = ({
           variant: "destructive",
         });
         onError?.();
+        // Navigate to error page
+        navigate('/payment/error');
       }
     }, 1500);
   };

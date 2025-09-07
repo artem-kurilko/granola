@@ -65,9 +65,9 @@ const CartSheet = () => {
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-20">
             <ShoppingCart className="h-16 w-16 text-amber-300 mb-4" />
-            <p className="text-amber-700">Ваша корзина пуста</p>
+            <p className="text-amber-700 mb-4">Ваша корзина пуста</p>
             <Button 
-              className="mt-4 bg-amber-600 hover:bg-amber-700"
+              className="bg-amber-600 hover:bg-amber-700"
               onClick={() => setIsOpen(false)}
             >
               Продолжить покупки
@@ -87,7 +87,7 @@ const CartSheet = () => {
                         <Button 
                           variant="outline" 
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 rounded-full"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         >
                           <Minus className="h-4 w-4" />
@@ -96,7 +96,7 @@ const CartSheet = () => {
                         <Button 
                           variant="outline" 
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 rounded-full"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         >
                           <Plus className="h-4 w-4" />
@@ -132,16 +132,16 @@ const CartSheet = () => {
                 </div>
               </div>
               
-              <div className="flex space-x-4 mt-6">
+              <div className="flex flex-col sm:flex-row gap-4 mt-6">
                 <Button 
                   variant="outline" 
-                  className="flex-1 border-amber-600 text-amber-600 hover:bg-amber-50"
+                  className="w-full border-amber-600 text-amber-600 hover:bg-amber-50"
                   onClick={() => setIsOpen(false)}
                 >
                   Продолжить покупки
                 </Button>
                 <Button 
-                  className="flex-1 bg-amber-600 hover:bg-amber-700"
+                  className="w-full bg-amber-600 hover:bg-amber-700"
                   asChild
                 >
                   <Link to="/checkout">Оформить заказ</Link>

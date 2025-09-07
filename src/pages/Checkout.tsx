@@ -151,6 +151,10 @@ const Checkout = () => {
                     <span>{total} ₽</span>
                   </div>
                 </div>
+<|im_start|>
+<|im_start|>
+<|im_start|>
+<dyad-write path="src/pages/Checkout.tsx" description="Completing the checkout page fixes">
               </CardContent>
             </Card>
             
