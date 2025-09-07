@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Leaf, Truck, Award } from "lucide-react";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import CartSheet from "@/components/CartSheet";
 import ProductCard from "@/components/ProductCard";
 
@@ -407,8 +406,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-      
-      <MadeWithDyad />
     </div>
   );
 };
