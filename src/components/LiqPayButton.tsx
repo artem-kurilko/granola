@@ -35,27 +35,14 @@ const LiqPayButton = ({
     setTimeout(() => {
       setIsLoading(false);
       
-      // Simulate successful payment
-      const isSuccess = Math.random() > 0.3; // 70% success rate for demo
-      
-      if (isSuccess) {
-        toast({
-          title: "Оплата пройшла успішно!",
-          description: "Ваше замовлення оформлено. Ми зв'яжемося з вами найближчим часом.",
-        });
-        onSuccess?.();
-        // Navigate to success page
-        navigate('/payment/success');
-      } else {
-        toast({
-          title: "Помилка оплати",
-          description: "Сталася помилка при обробці платежу. Будь ласка, спробуйте ще раз.",
-          variant: "destructive",
-        });
-        onError?.();
-        // Navigate to error page
-        navigate('/payment/error');
-      }
+      // Always succeed for demo purposes
+      toast({
+        title: "Оплата пройшла успішно!",
+        description: "Ваше замовлення оформлено. Ми зв'яжемося з вами найближчим часом.",
+      });
+      onSuccess?.();
+      // Navigate to success page
+      navigate('/payment/success');
     }, 1500);
   };
 
