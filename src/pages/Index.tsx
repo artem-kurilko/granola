@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Star, Leaf, Truck, Award } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import CartSheet from "@/components/CartSheet";
+import ProductCard from "@/components/ProductCard";
 
 const Index = () => {
   const [cartItems, setCartItems] = useState(0);
@@ -47,6 +49,7 @@ const Index = () => {
   const addToCart = (productId: number) => {
     setCartItems(prev => prev + 1);
     // In a real app, this would add to cart state
+    console.log(`Added product ${productId} to cart`);
   };
 
   return (
@@ -67,15 +70,11 @@ const Index = () => {
           </nav>
           
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-6 w-6 text-amber-800" />
-              {cartItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {cartItems}
-                </span>
-              )}
-            </Button>
-            <Button className="bg-amber-600 hover:bg-amber-700 text-white">
+            <CartSheet />
+            <Button 
+              className="bg-amber-600 hover:bg-amber-700 text-white"
+              onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+            >
               Заказать
             </Button>
           </div>
@@ -95,7 +94,10 @@ const Index = () => {
               Полезный завтрак для всей семьи!
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8">
+              <Button 
+                className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8"
+                onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+              >
                 Заказать сейчас
               </Button>
               <Button variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8">
@@ -170,35 +172,16 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product) => (
-              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="bg-amber-200 border-2 border-dashed w-full h-48" />
-                <CardHeader>
-                  <CardTitle className="text-amber-900">{product.name}</CardTitle>
-                  <div className="flex items-center">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm text-amber-700 ml-2">{product.rating}</span>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-amber-700 mb-4">{product.description}</p>
-                  <p className="text-2xl font-bold text-amber-900">{product.price} ₽</p>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-                    onClick={() => addToCart(product.id)}
-                  >
-                    В корзину
-                  </Button>
-                </CardFooter>
-              </Card>
+              <ProductCard 
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                image={product.image}
+                rating={product.rating}
+                onAddToCart={addToCart}
+              />
             ))}
           </div>
         </div>
@@ -364,7 +347,10 @@ const Index = () => {
           <p className="text-amber-100 text-xl mb-8 max-w-2xl mx-auto">
             Сделайте заказ прямо сейчас и получите скидку 10% на первый заказ
           </p>
-          <Button className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold">
+          <Button 
+            className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold"
+            onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
+          >
             Заказать со скидкой
           </Button>
         </div>

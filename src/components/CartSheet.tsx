@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, X, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CartSheet = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,12 @@ const CartSheet = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="relative"
+          data-cart-sheet-trigger
+        >
           <ShoppingCart className="h-6 w-6 text-amber-800" />
           <span className="absolute -top-2 -right-2 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
             {items.reduce((sum, item) => sum + item.quantity, 0)}
@@ -134,8 +140,11 @@ const CartSheet = () => {
                 >
                   Продолжить покупки
                 </Button>
-                <Button className="flex-1 bg-amber-600 hover:bg-amber-700">
-                  Оформить заказ
+                <Button 
+                  className="flex-1 bg-amber-600 hover:bg-amber-700"
+                  asChild
+                >
+                  <Link to="/checkout">Оформить заказ</Link>
                 </Button>
               </div>
             </div>
