@@ -54,7 +54,7 @@ const RealLiqPayButton = ({
       server_url: serverUrl
     };
     
-    const dataStr = Buffer.from(JSON.stringify(data)).toString('base64');
+    const dataStr = btoa(JSON.stringify(data));
     // Signature generation would normally happen on the server
     // const signature = require('crypto')
     //   .createHmac('sha1', privateKey)
