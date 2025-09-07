@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingCart, Star, Leaf, Truck, Award } from "lucide-react";
+import { ShoppingCart, Leaf, Truck, Award } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import CartSheet from "@/components/CartSheet";
 import ProductCard from "@/components/ProductCard";
@@ -14,35 +14,31 @@ const Index = () => {
   const products = [
     {
       id: 1,
-      name: "Классическая гранола",
-      description: "Традиционный рецепт с овсяными хлопьями, медом и орехами",
-      price: 350,
+      name: "Класична гранола",
+      description: "Традиційний рецепт з вівсяними пластівцями, медом та горіхами",
+      price: 150,
       image: "/placeholder.svg?height=200&width=300",
-      rating: 4.8,
     },
     {
       id: 2,
-      name: "Шоколадная гранола",
-      description: "С кусочками темного шоколада и кокосовой стружкой",
-      price: 390,
+      name: "Шоколадна гранола",
+      description: "З шматочками темного шоколаду та кокосовою стружкою",
+      price: 170,
       image: "/placeholder.svg?height=200&width=300",
-      rating: 4.9,
     },
     {
       id: 3,
-      name: "Фруктовая гранола",
-      description: "С сушеными ягодами, курагой и изюмом",
-      price: 370,
+      name: "Фруктова гранола",
+      description: "З сушеними ягодами, курагою та родзинками",
+      price: 160,
       image: "/placeholder.svg?height=200&width=300",
-      rating: 4.7,
     },
     {
       id: 4,
-      name: "Ореховая гранола",
-      description: "С грецкими орехами, миндалем и фундуком",
-      price: 420,
+      name: "Горіхова гранола",
+      description: "З грецькими горіхами, мигдалем та ліщиною",
+      price: 180,
       image: "/placeholder.svg?height=200&width=300",
-      rating: 4.9,
     },
   ];
 
@@ -50,6 +46,13 @@ const Index = () => {
     setCartItems(prev => prev + 1);
     // In a real app, this would add to cart state
     console.log(`Added product ${productId} to cart`);
+  };
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -63,10 +66,10 @@ const Index = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <a href="#products" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Продукты</a>
-            <a href="#about" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">О нас</a>
-            <a href="#reviews" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Отзывы</a>
-            <a href="#delivery" className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Доставка</a>
+            <button onClick={() => scrollToSection("products")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Продукти</button>
+            <button onClick={() => scrollToSection("about")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Про нас</button>
+            <button onClick={() => scrollToSection("reviews")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Відгуки</button>
+            <button onClick={() => scrollToSection("delivery")} className="text-amber-800 hover:text-amber-600 font-medium transition-colors">Доставка</button>
           </nav>
           
           <div className="flex items-center space-x-4">
@@ -75,7 +78,7 @@ const Index = () => {
               className="bg-amber-600 hover:bg-amber-700 text-white"
               onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
             >
-              Заказать
+              Замовити
             </Button>
           </div>
         </div>
@@ -86,22 +89,26 @@ const Index = () => {
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-10 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4">
-              Натуральная гранола <br />
-              <span className="text-amber-600">домашнего приготовления</span>
+              Натуральна гранола <br />
+              <span className="text-amber-600">домашнього приготування</span>
             </h1>
             <p className="text-lg text-amber-800 mb-8">
-              Свежие ингредиенты, тщательно отобранные орехи и фрукты. 
-              Полезный завтрак для всей семьи!
+              Свіжі інгредієнти, ретельно підібрані горіхи та фрукти. 
+              Корисний сніданок для всієї родини!
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button 
                 className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8"
                 onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
               >
-                Заказать сейчас
+                Замовити зараз
               </Button>
-              <Button variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8">
-                Узнать больше
+              <Button 
+                variant="outline" 
+                className="border-amber-600 text-amber-600 hover:bg-amber-50 text-lg py-6 px-8"
+                onClick={() => scrollToSection("products")}
+              >
+                Дізнатись більше
               </Button>
             </div>
           </div>
@@ -109,7 +116,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-amber-200 border-2 border-dashed rounded-xl w-64 h-64 md:w-80 md:h-80" />
               <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-lg">
-                <p className="font-bold text-amber-800">100% натуральные ингредиенты</p>
+                <p className="font-bold text-amber-800">100% натуральні інгредієнти</p>
               </div>
             </div>
           </div>
@@ -120,9 +127,9 @@ const Index = () => {
       <section id="about" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-amber-900 mb-4">Почему выбирают нашу гранолу?</h2>
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">Чому обирають нашу гранолу?</h2>
             <p className="text-amber-700 max-w-2xl mx-auto">
-              Мы создаем полезные и вкусные завтраки, используя только качественные ингредиенты
+              Ми створюємо корисні та смачні сніданки, використовуючи лише якісні інгредієнти
             </p>
           </div>
           
@@ -131,9 +138,9 @@ const Index = () => {
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Leaf className="h-8 w-8 text-amber-600" />
               </div>
-              <h3 className="text-xl font-bold text-amber-900 mb-2">Натуральные ингредиенты</h3>
+              <h3 className="text-xl font-bold text-amber-900 mb-2">Натуральні інгредієнти</h3>
               <p className="text-amber-700">
-                Только свежие орехи, фрукты и злаки без консервантов и искусственных добавок
+                Лише свіжі горіхи, фрукти та злаки без консервантів та штучних добавок
               </p>
             </div>
             
@@ -141,9 +148,9 @@ const Index = () => {
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="h-8 w-8 text-amber-600" />
               </div>
-              <h3 className="text-xl font-bold text-amber-900 mb-2">Качество</h3>
+              <h3 className="text-xl font-bold text-amber-900 mb-2">Якість</h3>
               <p className="text-amber-700">
-                Каждая партия проходит строгий контроль качества перед упаковкой
+                Кожна партія проходить суворий контроль якості перед упаковкою
               </p>
             </div>
             
@@ -151,9 +158,9 @@ const Index = () => {
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-amber-600" />
               </div>
-              <h3 className="text-xl font-bold text-amber-900 mb-2">Быстрая доставка</h3>
+              <h3 className="text-xl font-bold text-amber-900 mb-2">Швидка доставка</h3>
               <p className="text-amber-700">
-                Доставляем свежую гранолу в течение 1-2 дней по всей стране
+                Доставляємо свіжу гранолу протягом 1-2 днів по всій країні
               </p>
             </div>
           </div>
@@ -166,7 +173,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-amber-900 mb-4">Наша гранола</h2>
             <p className="text-amber-700 max-w-2xl mx-auto">
-              Разнообразные вкусы для каждого члена семьи
+              Різноманітні смаки для кожного члена родини
             </p>
           </div>
           
@@ -179,7 +186,6 @@ const Index = () => {
                 description={product.description}
                 price={product.price}
                 image={product.image}
-                rating={product.rating}
                 onAddToCart={addToCart}
               />
             ))}
@@ -191,9 +197,9 @@ const Index = () => {
       <section id="reviews" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-amber-900 mb-4">Отзывы наших клиентов</h2>
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">Відгуки наших клієнтів</h2>
             <p className="text-amber-700 max-w-2xl mx-auto">
-              Что говорят те, кто уже попробовал нашу гранолу
+              Що говорять ті, хто вже скуштував нашу гранолу
             </p>
           </div>
           
@@ -203,16 +209,11 @@ const Index = () => {
                 <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
                 <div className="ml-4">
                   <h4 className="font-bold text-amber-900">Анна Петрова</h4>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-amber-500 fill-amber-500" />
-                    ))}
-                  </div>
                 </div>
               </div>
               <p className="text-amber-700">
-                "Лучшая гранола, которую я пробовала! Свежий вкус, хрустящая текстура. 
-                Заказываю уже третий раз. Дети обожают!"
+                "Найкраща гранола, яку я пробувала! Свіжий смак, хрумка текстура. 
+                Замовляю вже третій раз. Діти обожнюють!"
               </p>
             </Card>
             
@@ -220,17 +221,12 @@ const Index = () => {
               <div className="flex items-center mb-4">
                 <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
                 <div className="ml-4">
-                  <h4 className="font-bold text-amber-900">Иван Сидоров</h4>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-amber-500 fill-amber-500" />
-                    ))}
-                  </div>
+                  <h4 className="font-bold text-amber-900">Іван Сидоров</h4>
                 </div>
               </div>
               <p className="text-amber-700">
-                "Заказал классическую гранолу для завтраков на работе. 
-                Всегда свежая, питательная и очень вкусная. Рекомендую!"
+                "Замовив класичну гранолу для сніданків на роботі. 
+                Завжди свіжа, поживна і дуже смачна. Рекомендую!"
               </p>
             </Card>
             
@@ -238,17 +234,12 @@ const Index = () => {
               <div className="flex items-center mb-4">
                 <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
                 <div className="ml-4">
-                  <h4 className="font-bold text-amber-900">Мария Козлова</h4>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-amber-500 fill-amber-500" />
-                    ))}
-                  </div>
+                  <h4 className="font-bold text-amber-900">Марія Козлова</h4>
                 </div>
               </div>
               <p className="text-amber-700">
-                "Очень довольна качеством и вкусом. Особенно нравится фруктовая гранола. 
-                Упаковка красивая, срок годности соблюдается."
+                "Дуже задоволена якістю та смаком. Особливо подобається фруктова гранола. 
+                Упаковка гарна, термін придатності дотримується."
               </p>
             </Card>
           </div>
@@ -259,15 +250,15 @@ const Index = () => {
       <section id="delivery" className="py-16 bg-amber-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-amber-900 mb-4">Доставка и оплата</h2>
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">Доставка та оплата</h2>
             <p className="text-amber-700 max-w-2xl mx-auto">
-              Удобные способы получения и оплаты заказа
+              Зручні способи отримання та оплати замовлення
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-2xl font-bold text-amber-900 mb-6">Как мы доставляем</h3>
+              <h3 className="text-2xl font-bold text-amber-900 mb-6">Як ми доставляємо</h3>
               
               <div className="space-y-6">
                 <div className="flex">
@@ -275,8 +266,8 @@ const Index = () => {
                     1
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-bold text-amber-900">Оформление заказа</h4>
-                    <p className="text-amber-700">Выберите продукты и укажите адрес доставки</p>
+                    <h4 className="font-bold text-amber-900">Оформлення замовлення</h4>
+                    <p className="text-amber-700">Виберіть продукти та вкажіть адресу доставки</p>
                   </div>
                 </div>
                 
@@ -285,8 +276,8 @@ const Index = () => {
                     2
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-bold text-amber-900">Подготовка</h4>
-                    <p className="text-amber-700">Готовим ваш заказ в течение 24 часов</p>
+                    <h4 className="font-bold text-amber-900">Підготовка</h4>
+                    <p className="text-amber-700">Готуємо ваше замовлення протягом 24 годин</p>
                   </div>
                 </div>
                 
@@ -296,41 +287,41 @@ const Index = () => {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-bold text-amber-900">Доставка</h4>
-                    <p className="text-amber-700">Доставляем курьером в течение 1-2 дней</p>
+                    <p className="text-amber-700">Доставляємо кур'єром протягом 1-2 днів</p>
                   </div>
                 </div>
               </div>
             </div>
             
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <h3 className="text-2xl font-bold text-amber-900 mb-6">Способы оплаты</h3>
+              <h3 className="text-2xl font-bold text-amber-900 mb-6">Способи оплати</h3>
               
               <ul className="space-y-4">
                 <li className="flex items-center">
                   <div className="bg-amber-100 p-2 rounded-lg">
                     <div className="bg-amber-200 border-2 border-dashed rounded w-8 h-8" />
                   </div>
-                  <span className="ml-4 text-amber-900 font-medium">Наличными при получении</span>
+                  <span className="ml-4 text-amber-900 font-medium">Готівкою при отриманні</span>
                 </li>
                 
                 <li className="flex items-center">
                   <div className="bg-amber-100 p-2 rounded-lg">
                     <div className="bg-amber-200 border-2 border-dashed rounded w-8 h-8" />
                   </div>
-                  <span className="ml-4 text-amber-900 font-medium">Банковской картой онлайн</span>
+                  <span className="ml-4 text-amber-900 font-medium">Банківською карткою онлайн</span>
                 </li>
                 
                 <li className="flex items-center">
                   <div className="bg-amber-100 p-2 rounded-lg">
                     <div className="bg-amber-200 border-2 border-dashed rounded w-8 h-8" />
                   </div>
-                  <span className="ml-4 text-amber-900 font-medium">Электронные кошельки</span>
+                  <span className="ml-4 text-amber-900 font-medium">Електронні гаманці</span>
                 </li>
               </ul>
               
               <div className="mt-8 p-4 bg-amber-100 rounded-lg">
                 <p className="text-amber-800">
-                  <span className="font-bold">Бесплатная доставка</span> при заказе от 1000 ₽
+                  <span className="font-bold">Безкоштовна доставка</span> при замовленні від 500 ₴
                 </p>
               </div>
             </div>
@@ -342,16 +333,16 @@ const Index = () => {
       <section className="py-16 bg-amber-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Готовы попробовать нашу гранолу?
+            Готові скуштувати нашу гранолу?
           </h2>
           <p className="text-amber-100 text-xl mb-8 max-w-2xl mx-auto">
-            Сделайте заказ прямо сейчас и получите скидку 10% на первый заказ
+            Зробіть замовлення прямо зараз і отримайте знижку 10% на перше замовлення
           </p>
           <Button 
             className="bg-white text-amber-600 hover:bg-amber-50 text-lg py-6 px-8 font-bold"
             onClick={() => document.querySelector('[data-cart-sheet-trigger]')?.dispatchEvent(new Event('click'))}
           >
-            Заказать со скидкой
+            Замовити зі знижкою
           </Button>
         </div>
       </section>
@@ -366,7 +357,7 @@ const Index = () => {
                 <h3 className="text-xl font-bold text-white">Granola House</h3>
               </div>
               <p className="mb-4">
-                Натуральная гранола домашнего приготовления с 2015 года
+                Натуральна гранола домашнього приготування з 2015 року
               </p>
               <div className="flex space-x-4">
                 <div className="bg-amber-800 p-2 rounded-full">
@@ -384,35 +375,35 @@ const Index = () => {
             <div>
               <h4 className="text-lg font-bold text-white mb-4">Каталог</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Классическая гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Шоколадная гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Фруктовая гранола</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Ореховая гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Класична гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Шоколадна гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Фруктова гранола</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Горіхова гранола</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-lg font-bold text-white mb-4">Информация</h4>
+              <h4 className="text-lg font-bold text-white mb-4">Інформація</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-amber-300 transition-colors">О нас</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Доставка и оплата</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Отзывы</a></li>
-                <li><a href="#" className="hover:text-amber-300 transition-colors">Контакты</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Про нас</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Доставка та оплата</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Відгуки</a></li>
+                <li><a href="#" className="hover:text-amber-300 transition-colors">Контакти</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-lg font-bold text-white mb-4">Контакты</h4>
+              <h4 className="text-lg font-bold text-white mb-4">Контакти</h4>
               <ul className="space-y-2">
-                <li>г. Москва, ул. Примерная, 123</li>
-                <li>+7 (495) 123-45-67</li>
-                <li>info@granola-house.ru</li>
+                <li>м. Київ, вул. Прикладна, 123</li>
+                <li>+380 (44) 123-45-67</li>
+                <li>info@granola-house.ua</li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-amber-800 mt-8 pt-8 text-center">
-            <p>&copy; {new Date().getFullYear()} Granola House. Все права защищены.</p>
+            <p>&copy; {new Date().getFullYear()} Granola House. Всі права захищені.</p>
           </div>
         </div>
       </footer>

@@ -32,20 +32,20 @@ const Checkout = () => {
   const cartItems = [
     {
       id: 1,
-      name: "Классическая гранола",
-      price: 350,
+      name: "Класична гранола",
+      price: 150,
       quantity: 2,
     },
     {
       id: 2,
-      name: "Шоколадная гранола",
-      price: 390,
+      name: "Шоколадна гранола",
+      price: 170,
       quantity: 1,
     },
   ];
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal >= 1000 ? 0 : 200;
+  const shipping = subtotal >= 500 ? 0 : 100;
   const total = subtotal + shipping;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,8 +60,8 @@ const Checkout = () => {
     if (!formData.firstName || !formData.lastName || !formData.email || 
         !formData.phone || !formData.address || !formData.city || !formData.zip) {
       toast({
-        title: "Ошибка оформления",
-        description: "Пожалуйста, заполните все обязательные поля.",
+        title: "Помилка оформлення",
+        description: "Будь ласка, заповніть всі обов'язкові поля.",
         variant: "destructive",
       });
       return;
@@ -74,8 +74,8 @@ const Checkout = () => {
       setTimeout(() => {
         setIsProcessing(false);
         toast({
-          title: "Заказ оформлен!",
-          description: "Мы свяжемся с вами для подтверждения заказа.",
+          title: "Замовлення оформлено!",
+          description: "Ми зв'яжемося з вами для підтвердження замовлення.",
         });
       }, 1500);
     }
@@ -84,38 +84,38 @@ const Checkout = () => {
   const handlePaymentSuccess = () => {
     // In a real app, this would redirect to a success page or update order status
     toast({
-      title: "Заказ успешно оформлен!",
-      description: "Спасибо за ваш заказ. Мы свяжемся с вами в ближайшее время.",
+      title: "Замовлення успішно оформлено!",
+      description: "Дякуємо за ваше замовлення. Ми зв'яжемося з вами найближчим часом.",
     });
   };
 
   const handlePaymentError = () => {
     // In a real app, this would show an error message
     toast({
-      title: "Ошибка оплаты",
-      description: "Произошла ошибка при обработке платежа. Пожалуйста, попробуйте снова.",
+      title: "Помилка оплати",
+      description: "Сталася помилка при обробці платежу. Будь ласка, спробуйте ще раз.",
       variant: "destructive",
     });
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 py-8">
+    <div className="min-h-screen bg-amber-50 py-6">
       <div className="container mx-auto px-4">
-        <div className="flex items-center mb-8">
+        <div className="flex items-center mb-6">
           <Link to="/">
             <Button variant="ghost" className="text-amber-800">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Вернуться к покупкам
+              Повернутись до покупок
             </Button>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Ваш заказ</CardTitle>
+                <CardTitle>Ваше замовлення</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -123,9 +123,9 @@ const Checkout = () => {
                     <div key={item.id} className="flex justify-between">
                       <div>
                         <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-amber-700">Количество: {item.quantity}</p>
+                        <p className="text-sm text-amber-700">Кількість: {item.quantity}</p>
                       </div>
-                      <p className="font-medium">{item.price * item.quantity} ₽</p>
+                      <p className="font-medium">{item.price * item.quantity} ₴</p>
                     </div>
                   ))}
                 </div>
@@ -134,31 +134,31 @@ const Checkout = () => {
                 
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Подитог:</span>
-                    <span>{subtotal} ₽</span>
+                    <span>Підсумок:</span>
+                    <span>{subtotal} ₴</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Доставка:</span>
                     <span>{shipping === 0 ? (
-                      <Badge variant="success">Бесплатно</Badge>
+                      <Badge variant="success">Безкоштовно</Badge>
                     ) : (
-                      `${shipping} ₽`
+                      `${shipping} ₴`
                     )}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
-                    <span>Итого:</span>
-                    <span>{total} ₽</span>
+                    <span>Разом:</span>
+                    <span>{total} ₴</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
             
-            <div className="mt-6 bg-amber-100 rounded-lg p-4">
+            <div className="mt-4 bg-amber-100 rounded-lg p-3">
               <div className="flex items-start">
                 <Shield className="h-5 w-5 text-amber-700 mt-0.5 mr-2 flex-shrink-0" />
                 <p className="text-sm text-amber-800">
-                  Ваши данные защищены. Мы не передаем информацию третьим лицам.
+                  Ваші дані захищені. Ми не передаємо інформацію третім особам.
                 </p>
               </div>
             </div>
@@ -168,13 +168,13 @@ const Checkout = () => {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Информация для доставки</CardTitle>
+                <CardTitle>Інформація для доставки</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName">Имя *</Label>
+                      <Label htmlFor="firstName">Ім'я *</Label>
                       <Input
                         id="firstName"
                         name="firstName"
@@ -184,7 +184,7 @@ const Checkout = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName">Фамилия *</Label>
+                      <Label htmlFor="lastName">Прізвище *</Label>
                       <Input
                         id="lastName"
                         name="lastName"
@@ -195,7 +195,7 @@ const Checkout = () => {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="email">Email *</Label>
                       <Input
@@ -221,7 +221,7 @@ const Checkout = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="address">Адрес доставки *</Label>
+                    <Label htmlFor="address">Адреса доставки *</Label>
                     <Input
                       id="address"
                       name="address"
@@ -231,9 +231,9 @@ const Checkout = () => {
                     />
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <Label htmlFor="city">Город *</Label>
+                      <Label htmlFor="city">Місто *</Label>
                       <Input
                         id="city"
                         name="city"
@@ -243,7 +243,7 @@ const Checkout = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="zip">Индекс *</Label>
+                      <Label htmlFor="zip">Індекс *</Label>
                       <Input
                         id="zip"
                         name="zip"
@@ -253,42 +253,42 @@ const Checkout = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="country">Страна</Label>
+                      <Label htmlFor="country">Країна</Label>
                       <Input
                         id="country"
                         name="country"
-                        value="Россия"
+                        value="Україна"
                         disabled
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <Label htmlFor="comment">Комментарий к заказу</Label>
+                    <Label htmlFor="comment">Коментар до замовлення</Label>
                     <Textarea
                       id="comment"
                       name="comment"
                       value={formData.comment}
                       onChange={handleInputChange}
-                      placeholder="Особые пожелания по доставке..."
+                      placeholder="Особливі побажання щодо доставки..."
                     />
                   </div>
                   
                   <Separator />
                   
                   <div>
-                    <h3 className="text-lg font-medium mb-4">Способ доставки</h3>
+                    <h3 className="text-lg font-medium mb-3">Спосіб доставки</h3>
                     <RadioGroup defaultValue="courier">
-                      <div className="flex items-center space-x-2 mb-3">
+                      <div className="flex items-center space-x-2 mb-2">
                         <RadioGroupItem value="courier" id="courier" />
                         <Label htmlFor="courier" className="flex items-center">
                           <Truck className="mr-2 h-4 w-4" />
-                          Курьерская доставка - 1-2 дня
+                          Кур'єрська доставка - 1-2 дні
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="pickup" id="pickup" />
-                        <Label htmlFor="pickup">Самовывоз из магазина</Label>
+                        <Label htmlFor="pickup">Самовивіз з магазину</Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -296,22 +296,22 @@ const Checkout = () => {
                   <Separator />
                   
                   <div>
-                    <h3 className="text-lg font-medium mb-4">Способ оплаты</h3>
+                    <h3 className="text-lg font-medium mb-3">Спосіб оплати</h3>
                     <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-                      <div className="flex items-center space-x-2 mb-3">
+                      <div className="flex items-center space-x-2 mb-2">
                         <RadioGroupItem value="liqpay" id="liqpay" />
                         <Label htmlFor="liqpay" className="flex items-center">
                           <CreditCard className="mr-2 h-4 w-4" />
                           Онлайн оплата (LiqPay)
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2 mb-3">
+                      <div className="flex items-center space-x-2 mb-2">
                         <RadioGroupItem value="cash" id="cash" />
-                        <Label htmlFor="cash">Наличные при получении</Label>
+                        <Label htmlFor="cash">Готівка при отриманні</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="digital" id="digital" />
-                        <Label htmlFor="digital">Электронный кошелек</Label>
+                        <Label htmlFor="digital">Електронний гаманець</Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -321,7 +321,7 @@ const Checkout = () => {
                   <div className="flex items-start space-x-2">
                     <Checkbox id="terms" required />
                     <Label htmlFor="terms" className="text-sm">
-                      Я согласен с <a href="#" className="text-amber-600 hover:underline">условиями заказа</a> и <a href="#" className="text-amber-600 hover:underline">политикой конфиденциальности</a> *
+                      Я погоджуюсь з <a href="#" className="text-amber-600 hover:underline">умовами замовлення</a> та <a href="#" className="text-amber-600 hover:underline">політикою конфіденційності</a> *
                     </Label>
                   </div>
                 </form>
@@ -330,7 +330,7 @@ const Checkout = () => {
                 {paymentMethod === "liqpay" ? (
                   <LiqPayButton
                     amount={total}
-                    description="Покупка гранолы"
+                    description="Покупка граноли"
                     orderId={`ORDER-${Date.now()}`}
                     onSuccess={handlePaymentSuccess}
                     onError={handlePaymentError}
@@ -339,10 +339,10 @@ const Checkout = () => {
                   <Button 
                     type="submit" 
                     disabled={isProcessing}
-                    className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
+                    className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-5"
                     onClick={handleSubmit}
                   >
-                    {isProcessing ? "Обработка..." : `Оформить заказ на сумму ${total} ₽`}
+                    {isProcessing ? "Обробка..." : `Оформити замовлення на суму ${total} ₴`}
                   </Button>
                 )}
               </CardFooter>

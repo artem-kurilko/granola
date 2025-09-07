@@ -13,15 +13,15 @@ const CartSheet = () => {
   const [items, setItems] = useState([
     {
       id: 1,
-      name: "Классическая гранола",
-      price: 350,
+      name: "Класична гранола",
+      price: 150,
       quantity: 2,
       image: "/placeholder.svg?height=100&width=100",
     },
     {
       id: 2,
-      name: "Шоколадная гранола",
-      price: 390,
+      name: "Шоколадна гранола",
+      price: 170,
       quantity: 1,
       image: "/placeholder.svg?height=100&width=100",
     },
@@ -39,7 +39,7 @@ const CartSheet = () => {
   };
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal >= 1000 ? 0 : 200;
+  const shipping = subtotal >= 500 ? 0 : 100;
   const total = subtotal + shipping;
 
   return (
@@ -57,32 +57,32 @@ const CartSheet = () => {
           </span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-lg">
+      <SheetContent className="w-full sm:max-w-lg flex flex-col">
         <SheetHeader>
-          <SheetTitle>Ваша корзина</SheetTitle>
+          <SheetTitle>Ваш кошик</SheetTitle>
         </SheetHeader>
         
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full py-20">
+          <div className="flex flex-col items-center justify-center flex-grow py-20">
             <ShoppingCart className="h-16 w-16 text-amber-300 mb-4" />
-            <p className="text-amber-700 mb-4">Ваша корзина пуста</p>
+            <p className="text-amber-700 mb-4">Ваш кошик порожній</p>
             <Button 
               className="bg-amber-600 hover:bg-amber-700"
               onClick={() => setIsOpen(false)}
             >
-              Продолжить покупки
+              Продовжити покупки
             </Button>
           </div>
         ) : (
           <>
-            <ScrollArea className="h-[calc(100vh-200px)] py-6">
+            <ScrollArea className="flex-grow py-6">
               <div className="space-y-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-center space-x-4">
                     <div className="bg-amber-200 border-2 border-dashed rounded w-16 h-16" />
                     <div className="flex-1">
                       <h3 className="font-medium text-amber-900">{item.name}</h3>
-                      <p className="text-amber-700">{item.price} ₽</p>
+                      <p className="text-amber-700">{item.price} ₴</p>
                       <div className="flex items-center mt-2">
                         <Button 
                           variant="outline" 
@@ -115,20 +115,20 @@ const CartSheet = () => {
               </div>
             </ScrollArea>
             
-            <div className="mt-auto border-t pt-4">
+            <div className="border-t pt-4">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span>Подитог:</span>
-                  <span>{subtotal} ₽</span>
+                  <span>Підсумок:</span>
+                  <span>{subtotal} ₴</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Доставка:</span>
-                  <span>{shipping === 0 ? 'Бесплатно' : `${shipping} ₽`}</span>
+                  <span>{shipping === 0 ? 'Безкоштовно' : `${shipping} ₴`}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
-                  <span>Итого:</span>
-                  <span>{total} ₽</span>
+                  <span>Разом:</span>
+                  <span>{total} ₴</span>
                 </div>
               </div>
               
@@ -138,13 +138,13 @@ const CartSheet = () => {
                   className="w-full border-amber-600 text-amber-600 hover:bg-amber-50"
                   onClick={() => setIsOpen(false)}
                 >
-                  Продолжить покупки
+                  Продовжити покупки
                 </Button>
                 <Button 
                   className="w-full bg-amber-600 hover:bg-amber-700"
                   asChild
                 >
-                  <Link to="/checkout">Оформить заказ</Link>
+                  <Link to="/checkout">Оформити замовлення</Link>
                 </Button>
               </div>
             </div>

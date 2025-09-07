@@ -40,16 +40,16 @@ const LiqPayButton = ({
       
       if (isSuccess) {
         toast({
-          title: "Оплата прошла успешно!",
-          description: "Ваш заказ оформлен. Мы свяжемся с вами в ближайшее время.",
+          title: "Оплата пройшла успішно!",
+          description: "Ваше замовлення оформлено. Ми зв'яжемося з вами найближчим часом.",
         });
         onSuccess?.();
         // Navigate to success page
         navigate('/payment/success');
       } else {
         toast({
-          title: "Ошибка оплаты",
-          description: "Произошла ошибка при обработке платежа. Пожалуйста, попробуйте снова.",
+          title: "Помилка оплати",
+          description: "Сталася помилка при обробці платежу. Будь ласка, спробуйте ще раз.",
           variant: "destructive",
         });
         onError?.();
@@ -63,9 +63,9 @@ const LiqPayButton = ({
     <Button
       onClick={handlePayment}
       disabled={isLoading}
-      className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
+      className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-5"
     >
-      {isLoading ? "Обработка платежа..." : `Оплатить ${amount} ₽`}
+      {isLoading ? "Обробка платежу..." : `Сплатити ${amount} ₴`}
     </Button>
   );
 };
