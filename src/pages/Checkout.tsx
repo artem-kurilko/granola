@@ -12,6 +12,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Truck, CreditCard, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import LiqPayButton from "@/components/LiqPayButton";
+import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +26,8 @@ const Checkout = () => {
     zip: "",
     comment: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState("liqpay");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const cartItems = [
     {
@@ -51,8 +55,47 @@ const Checkout = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would submit the order
-    console.log("Order submitted:", { ...formData, items: cartItems });
+    
+    // Validate form
+    if (!formData.firstName || !formData.lastName || !formData.email || 
+        !formData.phone || !formData.address || !formData.city || !formData.zip) {
+      toast({
+        title: "Ошибка оформления",
+        description: "Пожалуйста, заполните все обязательные поля.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // If payment method is not LiqPay, proceed with regular order submission
+    if (paymentMethod !== "liqpay") {
+      setIsProcessing(true);
+      // Simulate order submission
+      setTimeout(() => {
+        setIsProcessing(false);
+        toast({
+          title: "Заказ оформлен!",
+          description: "Мы свяжемся с вами для подтверждения заказа.",
+        });
+      }, 1500);
+    }
+  };
+
+  const handlePaymentSuccess = () => {
+    // In a real app, this would redirect to a success page or update order status
+    toast({
+      title: "Заказ успешно оформлен!",
+      description: "Спасибо за ваш заказ. Мы свяжемся с вами в ближайшее время.",
+    });
+  };
+
+  const handlePaymentError = () => {
+    // In a real app, this would show an error message
+    toast({
+      title: "Ошибка оплаты",
+      description: "Произошла ошибка при обработке платежа. Пожалуйста, попробуйте снова.",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -254,12 +297,12 @@ const Checkout = () => {
                   
                   <div>
                     <h3 className="text-lg font-medium mb-4">Способ оплаты</h3>
-                    <RadioGroup defaultValue="card">
+                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
                       <div className="flex items-center space-x-2 mb-3">
-                        <RadioGroupItem value="card" id="card" />
-                        <Label htmlFor="card" className="flex items-center">
+                        <RadioGroupItem value="liqpay" id="liqpay" />
+                        <Label htmlFor="liqpay" className="flex items-center">
                           <CreditCard className="mr-2 h-4 w-4" />
-                          Банковская карта онлайн
+                          Онлайн оплата (LiqPay)
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2 mb-3">
@@ -284,13 +327,24 @@ const Checkout = () => {
                 </form>
               </CardContent>
               <CardFooter>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
-                  onClick={handleSubmit}
-                >
-                  Оформить заказ на сумму {total} ₽
-                </Button>
+                {paymentMethod === "liqpay" ? (
+                  <LiqPayButton
+                    amount={total}
+                    description="Покупка гранолы"
+                    orderId={`ORDER-${Date.now()}`}
+                    onSuccess={handlePaymentSuccess}
+                    onError={handlePaymentError}
+                  />
+                ) : (
+                  <Button 
+                    type="submit" 
+                    disabled={isProcessing}
+                    className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
+                    onClick={handleSubmit}
+                  >
+                    {isProcessing ? "Обработка..." : `Оформить заказ на сумму ${total} ₽`}
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           </div>
