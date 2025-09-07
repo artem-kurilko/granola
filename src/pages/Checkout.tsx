@@ -113,7 +113,12 @@ const Checkout = () => {
     
     setIsProcessing(true);
     
-    // Simulate LiqPay payment process
+    // In a real implementation, this would:
+    // 1. Submit order details to your backend
+    // 2. Get LiqPay payment parameters from backend
+    // 3. Redirect to LiqPay payment page
+    
+    // Simulate API call to backend
     setTimeout(() => {
       setIsProcessing(false);
       
