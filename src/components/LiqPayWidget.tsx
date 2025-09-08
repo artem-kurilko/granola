@@ -14,8 +14,6 @@ interface LiqPayWidgetProps {
   amount: number;
   description: string;
   orderId: string;
-  publicKey: string;
-  privateKey: string;
   onPaymentSuccess?: () => void;
   onPaymentError?: () => void;
 }
@@ -24,8 +22,6 @@ const LiqPayWidget = ({
   amount, 
   description, 
   orderId,
-  publicKey,
-  privateKey,
   onPaymentSuccess,
   onPaymentError
 }: LiqPayWidgetProps) => {
@@ -52,6 +48,18 @@ const LiqPayWidget = ({
     }
 
     try {
+      const publicKey = import.meta.env.VITE_LIQPAY_PUBLIC_KEY;
+      const privateKey = import.meta.env.VITE_LIQPAY_PRIVATE_KEY;
+
+      if (!publicKey || !privateKey) {
+        toast({
+          title: "Помилка конфігурації",
+          description: "Платіжна система не налаштована. Будь ласка, зверніться до адміністратора.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const liqpay = new window.LiqPay(
         publicKey,
         privateKey
@@ -66,7 +74,7 @@ const LiqPayWidget = ({
         result_url: `${window.location.origin}/payment/success`,
         server_url: `${window.location.origin}/api/payment/callback`,
         language: 'uk',
-        sandbox: '1', // Remove in production
+        sandbox: '1', // Sandbox mode for testing
       })
       .on('success', (data: any) => {
         console.log('Payment successful:', data);
