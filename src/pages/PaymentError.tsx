@@ -3,9 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { XCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const PaymentError = () => {
+  const location = useLocation();
+  const [errorDetails, setErrorDetails] = useState({
+    errorCode: "",
+    errorMessage: "",
+  });
+
+  useEffect(() => {
+    // Parse error details from URL
+    const searchParams = new URLSearchParams(location.search);
+    const errorCode = searchParams.get('error_code') || 'UNKNOWN';
+    const errorMessage = searchParams.get('error_message') || 'Сталася невідома помилка';
+    
+    setErrorDetails({
+      errorCode,
+      errorMessage,
+    });
+  }, [location]);
+
   return (
     <div className="min-h-screen bg-amber-50 py-12">
       <div className="container mx-auto px-4">
@@ -19,14 +38,14 @@ const PaymentError = () => {
             </CardHeader>
             <CardContent>
               <p className="text-amber-700 mb-4">
-                Сталася помилка при обробці вашого платежу. Будь ласка, спробуйте ще раз.
+                {errorDetails.errorMessage}
               </p>
               <p className="text-amber-700 text-sm">
-                Якщо проблема зберігається, зв'яжіться з нашою службою підтримки.
+                Код помилки: <span className="font-mono">{errorDetails.errorCode}</span>
               </p>
               <div className="mt-6 p-4 bg-amber-100 rounded-lg">
                 <p className="text-sm text-amber-800">
-                  Номер помилки: <span className="font-mono">ERR-{Date.now()}</span>
+                  Будь ласка, перевірте правильність введених даних та спробуйте ще раз.
                 </p>
               </div>
             </CardContent>
