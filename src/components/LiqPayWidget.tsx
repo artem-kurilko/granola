@@ -4,12 +4,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 
-declare global {
-  interface Window {
-    LiqPay: any;
-  }
-}
-
 interface LiqPayWidgetProps {
   amount: number;
   description: string;
@@ -30,36 +24,16 @@ const LiqPayWidget = ({
 
   useEffect(() => {
     // Check if script is already loaded
-    if (window.LiqPay) {
+    if (typeof window.LiqPay !== 'undefined') {
       setIsScriptLoaded(true);
       return;
     }
 
-    // Load LiqPay script
+    // Function to load script
     const loadScript = () => {
-      if (isScriptLoading) return;
-      
       setIsScriptLoading(true);
       
-      // Check if script is already added to DOM
-      const existingScript = document.querySelector('script[src="https://static.liqpay.ua/libjs/checkout.js"]');
-      if (existingScript) {
-        // Wait for script to load
-        existingScript.addEventListener('load', () => {
-          setIsScriptLoaded(true);
-          setIsScriptLoading(false);
-        });
-        existingScript.addEventListener('error', () => {
-          setIsScriptLoading(false);
-          toast({
-            title: "Помилка",
-            description: "Не вдалося завантажити платіжну систему.",
-            variant: "destructive",
-          });
-        });
-        return;
-      }
-
+      // Create script element
       const script = document.createElement('script');
       script.src = 'https://static.liqpay.ua/libjs/checkout.js';
       script.async = true;
@@ -73,26 +47,30 @@ const LiqPayWidget = ({
         setIsScriptLoading(false);
         toast({
           title: "Помилка",
-          description: "Не вдалося завантажити платіжну систему.",
+          description: "Не вдалося завантажити платіжну систему. Будь ласка, спробуйте пізніше.",
           variant: "destructive",
         });
       };
       
-      document.body.appendChild(script);
+      document.head.appendChild(script);
     };
 
     loadScript();
 
+    // Cleanup function
     return () => {
-      // Cleanup if needed
+      const script = document.querySelector('script[src="https://static.liqpay.ua/libjs/checkout.js"]');
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
-  }, [isScriptLoading]);
+  }, []);
 
   const handlePayment = () => {
     if (!isScriptLoaded) {
       toast({
-        title: "Помилка",
-        description: "Платіжна система ще завантажується. Будь ласка, зачекайте.",
+        title: "Платіжна система не завантажена",
+        description: "Будь ласка, зачекайте або спробуйте оновити сторінку.",
         variant: "destructive",
       });
       return;
@@ -100,26 +78,30 @@ const LiqPayWidget = ({
 
     try {
       const publicKey = import.meta.env.VITE_LIQPAY_PUBLIC_KEY;
+      // Note: Private key should never be exposed in frontend code in production
+      // This is only for sandbox testing purposes
       const privateKey = import.meta.env.VITE_LIQPAY_PRIVATE_KEY;
 
       if (!publicKey || !privateKey) {
         toast({
           title: "Помилка конфігурації",
-          description: "Платіжна система не налаштована. Будь ласка, зверніться до адміністратора.",
+          description: "Платіжна система не налаштована.",
           variant: "destructive",
         });
         return;
       }
 
+      // Create LiqPay instance
       const liqpay = new window.LiqPay(publicKey, privateKey);
-
+      
+      // Open checkout
       liqpay.checkout({
         amount: amount,
         currency: 'UAH',
         description: description,
         order_id: orderId,
         version: 3,
-        result_url: `${window.location.origin}/payment/success`,
+        result_url: `${window.location.origin}/payment/success?order_id=${orderId}&amount=${amount}`,
         server_url: `${window.location.origin}/api/payment/callback`,
         language: 'uk',
         sandbox: '1', // Sandbox mode for testing
@@ -161,7 +143,7 @@ const LiqPayWidget = ({
       
       <Button
         onClick={handlePayment}
-        disabled={!isScriptLoaded || isScriptLoading}
+        disabled={isScriptLoading}
         className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
       >
         {isScriptLoading ? "Завантаження платіжної системи..." : "Перейти до оплати"}
