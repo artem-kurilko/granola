@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 
@@ -25,23 +25,74 @@ const LiqPayWidget = ({
   onPaymentSuccess,
   onPaymentError
 }: LiqPayWidgetProps) => {
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const [isScriptLoading, setIsScriptLoading] = useState(false);
+
   useEffect(() => {
-    // Dynamically load LiqPay script
-    const script = document.createElement('script');
-    script.src = 'https://static.liqpay.ua/libjs/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
+    // Check if script is already loaded
+    if (window.LiqPay) {
+      setIsScriptLoaded(true);
+      return;
+    }
+
+    // Load LiqPay script
+    const loadScript = () => {
+      if (isScriptLoading) return;
+      
+      setIsScriptLoading(true);
+      
+      // Check if script is already added to DOM
+      const existingScript = document.querySelector('script[src="https://static.liqpay.ua/libjs/checkout.js"]');
+      if (existingScript) {
+        // Wait for script to load
+        existingScript.addEventListener('load', () => {
+          setIsScriptLoaded(true);
+          setIsScriptLoading(false);
+        });
+        existingScript.addEventListener('error', () => {
+          setIsScriptLoading(false);
+          toast({
+            title: "Помилка",
+            description: "Не вдалося завантажити платіжну систему.",
+            variant: "destructive",
+          });
+        });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://static.liqpay.ua/libjs/checkout.js';
+      script.async = true;
+      
+      script.onload = () => {
+        setIsScriptLoaded(true);
+        setIsScriptLoading(false);
+      };
+      
+      script.onerror = () => {
+        setIsScriptLoading(false);
+        toast({
+          title: "Помилка",
+          description: "Не вдалося завантажити платіжну систему.",
+          variant: "destructive",
+        });
+      };
+      
+      document.body.appendChild(script);
+    };
+
+    loadScript();
 
     return () => {
-      document.body.removeChild(script);
+      // Cleanup if needed
     };
-  }, []);
+  }, [isScriptLoading]);
 
   const handlePayment = () => {
-    if (typeof window.LiqPay === 'undefined') {
+    if (!isScriptLoaded) {
       toast({
         title: "Помилка",
-        description: "Не вдалося завантажити платіжну систему. Будь ласка, оновіть сторінку.",
+        description: "Платіжна система ще завантажується. Будь ласка, зачекайте.",
         variant: "destructive",
       });
       return;
@@ -60,10 +111,7 @@ const LiqPayWidget = ({
         return;
       }
 
-      const liqpay = new window.LiqPay(
-        publicKey,
-        privateKey
-      );
+      const liqpay = new window.LiqPay(publicKey, privateKey);
 
       liqpay.checkout({
         amount: amount,
@@ -113,9 +161,10 @@ const LiqPayWidget = ({
       
       <Button
         onClick={handlePayment}
+        disabled={!isScriptLoaded || isScriptLoading}
         className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
       >
-        Перейти до оплати
+        {isScriptLoading ? "Завантаження платіжної системи..." : "Перейти до оплати"}
       </Button>
       
       <div className="text-center text-xs text-amber-600">
