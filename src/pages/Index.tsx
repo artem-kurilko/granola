@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingCart, Leaf, Truck, Award } from "lucide-react";
+import { ShoppingCart, Leaf, Truck, Award, Star, Menu, X } from "lucide-react";
 import CartSheet from "@/components/CartSheet";
 import ProductCard from "@/components/ProductCard";
 import { useNavigate } from "react-router-dom";
+import Newsletter from "@/components/Newsletter";
 
 const Index = () => {
   const [cartItems, setCartItems] = useState(0);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const products = [
     {
@@ -43,6 +45,27 @@ const Index = () => {
     },
   ];
 
+  const testimonials = [
+    {
+      id: 1,
+      name: "Анна Петрова",
+      text: "Найкраща гранола, яку я пробувала! Свіжий смак, хрумка текстура. Замовляю вже третій раз. Діти обожнюють!",
+      rating: 5,
+    },
+    {
+      id: 2,
+      name: "Іван Сидоров",
+      text: "Замовив класичну гранолу для сніданків на роботі. Завжди свіжа, поживна і дуже смачна. Рекомендую!",
+      rating: 5,
+    },
+    {
+      id: 3,
+      name: "Марія Козлова",
+      text: "Дуже задоволена якістю та смаком. Особливо подобається фруктова гранола. Упаковка гарна, термін придатності дотримується.",
+      rating: 4,
+    },
+  ];
+
   const addToCart = (productId: number) => {
     setCartItems(prev => prev + 1);
     // In a real app, this would add to cart state
@@ -56,6 +79,7 @@ const Index = () => {
         behavior: 'smooth',
         block: 'start'
       });
+      setIsMenuOpen(false);
     }
   };
 
@@ -72,56 +96,105 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Leaf className="h-8 w-8 text-amber-600" />
-            <h1 className="text-2xl font-bold text-amber-800">Granola House</h1>
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-2">
+              <Leaf className="h-8 w-8 text-amber-600" />
+              <h1 className="text-2xl font-bold text-amber-800">Granola House</h1>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex space-x-8">
+              <button 
+                onClick={() => scrollToSection("products")} 
+                className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              >
+                Продукти
+              </button>
+              <button 
+                onClick={() => scrollToSection("about")} 
+                className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              >
+                Про нас
+              </button>
+              <button 
+                onClick={() => scrollToSection("reviews")} 
+                className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              >
+                Відгуки
+              </button>
+              <button 
+                onClick={() => scrollToSection("delivery")} 
+                className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
+              >
+                Доставка
+              </button>
+            </nav>
+            
+            <div className="flex items-center space-x-4">
+              <CartSheet />
+              <Button 
+                className="bg-amber-600 hover:bg-amber-700 text-white hidden md:block"
+                onClick={handleOrderNow}
+              >
+                Замовити
+              </Button>
+              
+              {/* Mobile menu button */}
+              <button 
+                className="md:hidden text-amber-800"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
           
-          <nav className="hidden md:flex space-x-8">
-            <button 
-              onClick={() => scrollToSection("products")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
-            >
-              Продукти
-            </button>
-            <button 
-              onClick={() => scrollToSection("about")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
-            >
-              Про нас
-            </button>
-            <button 
-              onClick={() => scrollToSection("reviews")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
-            >
-              Відгуки
-            </button>
-            <button 
-              onClick={() => scrollToSection("delivery")} 
-              className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300"
-            >
-              Доставка
-            </button>
-          </nav>
-          
-          <div className="flex items-center space-x-4">
-            <CartSheet />
-            <Button 
-              className="bg-amber-600 hover:bg-amber-700 text-white"
-              onClick={handleOrderNow}
-            >
-              Замовити
-            </Button>
-          </div>
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden py-4 border-t border-amber-100">
+              <div className="flex flex-col space-y-4">
+                <button 
+                  onClick={() => scrollToSection("products")} 
+                  className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300 text-left"
+                >
+                  Продукти
+                </button>
+                <button 
+                  onClick={() => scrollToSection("about")} 
+                  className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300 text-left"
+                >
+                  Про нас
+                </button>
+                <button 
+                  onClick={() => scrollToSection("reviews")} 
+                  className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300 text-left"
+                >
+                  Відгуки
+                </button>
+                <button 
+                  onClick={() => scrollToSection("delivery")} 
+                  className="text-amber-800 hover:text-amber-600 font-medium transition-colors duration-300 text-left"
+                >
+                  Доставка
+                </button>
+                <Button 
+                  className="bg-amber-600 hover:bg-amber-700 text-white w-full"
+                  onClick={handleOrderNow}
+                >
+                  Замовити
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-r from-amber-100 to-amber-50">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-amber-50 to-amber-100">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-10 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4">
@@ -170,7 +243,7 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
+            <div className="text-center p-6 bg-amber-50 rounded-lg">
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Leaf className="h-8 w-8 text-amber-600" />
               </div>
@@ -180,7 +253,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="text-center p-6">
+            <div className="text-center p-6 bg-amber-50 rounded-lg">
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="h-8 w-8 text-amber-600" />
               </div>
@@ -190,7 +263,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="text-center p-6">
+            <div className="text-center p-6 bg-amber-50 rounded-lg">
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-amber-600" />
               </div>
@@ -240,44 +313,27 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
-                <div className="ml-4">
-                  <h4 className="font-bold text-amber-900">Анна Петрова</h4>
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
+                  <div className="ml-4">
+                    <h4 className="font-bold text-amber-900">{testimonial.name}</h4>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`h-4 w-4 ${i < testimonial.rating ? 'text-amber-500 fill-amber-500' : 'text-amber-200'}`} 
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <p className="text-amber-700">
-                "Найкраща гранола, яку я пробувала! Свіжий смак, хрумка текстура. 
-                Замовляю вже третій раз. Діти обожнюють!"
-              </p>
-            </Card>
-            
-            <Card className="p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
-                <div className="ml-4">
-                  <h4 className="font-bold text-amber-900">Іван Сидоров</h4>
-                </div>
-              </div>
-              <p className="text-amber-700">
-                "Замовив класичну гранолу для сніданків на роботі. 
-                Завжди свіжа, поживна і дуже смачна. Рекомендую!"
-              </p>
-            </Card>
-            
-            <Card className="p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-amber-200 border-2 border-dashed rounded-full w-12 h-12" />
-                <div className="ml-4">
-                  <h4 className="font-bold text-amber-900">Марія Козлова</h4>
-                </div>
-              </div>
-              <p className="text-amber-700">
-                "Дуже задоволена якістю та смаком. Особливо подобається фруктова гранола. 
-                Упаковка гарна, термін придатності дотримується."
-              </p>
-            </Card>
+                <p className="text-amber-700">
+                  "{testimonial.text}"
+                </p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -362,6 +418,13 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-16 bg-amber-100">
+        <div className="container mx-auto px-4">
+          <Newsletter />
         </div>
       </section>
 

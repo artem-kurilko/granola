@@ -25,7 +25,7 @@ const ProductCard = ({
 
   return (
     <Card 
-      className="overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col"
+      className="overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col border border-amber-100"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

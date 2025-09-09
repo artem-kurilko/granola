@@ -87,7 +87,7 @@ const CartSheet = () => {
                         <Button 
                           variant="outline" 
                           size="icon"
-                          className="h-8 w-8 rounded-full"
+                          className="h-8 w-8 rounded-full border-amber-200"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         >
                           <Minus className="h-4 w-4" />
@@ -96,7 +96,7 @@ const CartSheet = () => {
                         <Button 
                           variant="outline" 
                           size="icon"
-                          className="h-8 w-8 rounded-full"
+                          className="h-8 w-8 rounded-full border-amber-200"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         >
                           <Plus className="h-4 w-4" />
