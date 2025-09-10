@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Truck, CreditCard, Shield, AlertCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import LiqPayWidget from "@/components/LiqPayWidget";
+import DemoPaymentWidget from "@/components/DemoPaymentWidget";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -114,8 +114,6 @@ const Checkout = () => {
       title: "Оплата успішна!",
       description: "Ваше замовлення оформлено та оплачено.",
     });
-    // Navigate to success page
-    navigate(`/payment/success?order_id=${orderId}&amount=${total}`);
   };
 
   const handlePaymentError = () => {
@@ -124,8 +122,6 @@ const Checkout = () => {
       description: "Сталася помилка при обробці платежу. Спробуйте ще раз.",
       variant: "destructive",
     });
-    // Navigate to error page
-    navigate(`/payment/error?error_code=PAYMENT_FAILED&error_message=Помилка обробки платежу`);
   };
 
   return (
@@ -193,14 +189,13 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* LiqPay Keys Info for Demo */}
+            {/* Demo Mode Info */}
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
               <div className="flex items-start">
                 <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
                 <div className="text-sm text-blue-800">
                   <p className="font-medium mb-1">Демо режим</p>
-                  <p>Використовуються тестові ключі LiqPay</p>
-                  <p className="text-xs mt-1">Публічний: {import.meta.env.VITE_LIQPAY_PUBLIC_KEY}</p>
+                  <p>Платежі обробляються в тестовому режимі</p>
                 </div>
               </div>
             </div>
@@ -348,7 +343,7 @@ const Checkout = () => {
                         <RadioGroupItem value="liqpay" id="liqpay" />
                         <Label htmlFor="liqpay" className="flex items-center">
                           <CreditCard className="mr-2 h-4 w-4" />
-                          Онлайн оплата (LiqPay)
+                          Онлайн оплата (Демо)
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2 mb-2">
@@ -389,7 +384,7 @@ const Checkout = () => {
                       </div>
                     )}
                     <div className={!isFormValid ? "opacity-50 pointer-events-none" : ""}>
-                      <LiqPayWidget
+                      <DemoPaymentWidget
                         amount={total}
                         description={`Замовлення ${orderId}`}
                         orderId={orderId}

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { createLiqPayFormData, submitLiqPayForm } from "@/utils/liqpay";
 
 interface LiqPayWidgetProps {
   amount: number;
@@ -13,12 +14,6 @@ interface LiqPayWidgetProps {
   onPaymentError?: () => void;
 }
 
-declare global {
-  interface Window {
-    LiqPayCheckout: any;
-  }
-}
-
 const LiqPayWidget = ({ 
   amount, 
   description, 
@@ -26,65 +21,10 @@ const LiqPayWidget = ({
   onPaymentSuccess,
   onPaymentError
 }: LiqPayWidgetProps) => {
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const [isScriptLoading, setIsScriptLoading] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if script is already loaded
-    if (typeof window.LiqPayCheckout !== 'undefined') {
-      setIsScriptLoaded(true);
-      return;
-    }
-
-    // Function to load script
-    const loadScript = () => {
-      setIsScriptLoading(true);
-      
-      // Create script element
-      const script = document.createElement('script');
-      script.src = 'https://static.liqpay.ua/libjs/checkout.js';
-      script.async = true;
-      
-      script.onload = () => {
-        setIsScriptLoaded(true);
-        setIsScriptLoading(false);
-      };
-      
-      script.onerror = () => {
-        setIsScriptLoading(false);
-        toast({
-          title: "Помилка",
-          description: "Не вдалося завантажити платіжну систему. Будь ласка, спробуйте пізніше.",
-          variant: "destructive",
-        });
-      };
-      
-      document.head.appendChild(script);
-    };
-
-    loadScript();
-
-    // Cleanup function
-    return () => {
-      const script = document.querySelector('script[src="https://static.liqpay.ua/libjs/checkout.js"]');
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
-
   const handlePayment = async () => {
-    if (!isScriptLoaded) {
-      toast({
-        title: "Платіжна система не завантажена",
-        description: "Будь ласка, зачекайте або спробуйте оновити сторінку.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsProcessing(true);
 
     try {
@@ -92,10 +32,10 @@ const LiqPayWidget = ({
       const privateKey = import.meta.env.VITE_LIQPAY_PRIVATE_KEY;
       const sandbox = import.meta.env.VITE_LIQPAY_SANDBOX;
 
-      if (!publicKey) {
+      if (!publicKey || !privateKey) {
         toast({
           title: "Помилка конфігурації",
-          description: "Публічний ключ LiqPay не налаштований.",
+          description: "Ключі LiqPay не налаштовані.",
           variant: "destructive",
         });
         setIsProcessing(false);
@@ -117,47 +57,17 @@ const LiqPayWidget = ({
         sandbox: sandbox || '0'
       };
 
-      // Convert to base64
-      const data = btoa(JSON.stringify(paymentData));
-      
-      // For demo purposes, we'll simulate the payment process
-      // In production, signature should be generated on the server
-      const signature = 'demo_signature';
+      // Generate form data with signature
+      const formData = await createLiqPayFormData(paymentData, privateKey);
 
-      // Create form and submit to LiqPay
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://www.liqpay.ua/api/3/checkout';
-      form.target = '_blank';
-      form.style.display = 'none';
+      toast({
+        title: "Перенаправлення на оплату",
+        description: "Ви будете перенаправлені на сторінку оплати LiqPay.",
+      });
 
-      const dataInput = document.createElement('input');
-      dataInput.name = 'data';
-      dataInput.value = data;
-      form.appendChild(dataInput);
-
-      const signatureInput = document.createElement('input');
-      signatureInput.name = 'signature';
-      signatureInput.value = signature;
-      form.appendChild(signatureInput);
-
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      // Simulate success for demo
+      // Submit form to LiqPay
       setTimeout(() => {
-        setIsProcessing(false);
-        toast({
-          title: "Перенаправлення на оплату",
-          description: "Ви будете перенаправлені на сторінку оплати LiqPay.",
-        });
-        
-        // For demo purposes, redirect to success page after 3 seconds
-        setTimeout(() => {
-          navigate(`/payment/success?order_id=${orderId}&amount=${amount}`);
-          onPaymentSuccess?.();
-        }, 3000);
+        submitLiqPayForm(formData.data, formData.signature);
       }, 1000);
 
     } catch (error) {
@@ -182,14 +92,12 @@ const LiqPayWidget = ({
       
       <Button
         onClick={handlePayment}
-        disabled={isScriptLoading || isProcessing}
+        disabled={isProcessing}
         className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-6"
       >
-        {isScriptLoading 
-          ? "Завантаження платіжної системи..." 
-          : isProcessing 
-          ? "Обробка платежу..." 
-          : "Перейти до оплати"
+        {isProcessing 
+          ? "Перенаправлення на оплату..." 
+          : "Перейти до оплати LiqPay"
         }
       </Button>
       
