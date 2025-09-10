@@ -26,24 +26,25 @@ const LiqPayButton = ({
   const handlePayment = () => {
     setIsLoading(true);
     
-    // In a real implementation, this would:
-    // 1. Call your backend to generate LiqPay signature and data
-    // 2. Redirect to LiqPay payment page
-    // 3. Handle success/error callbacks
+    // Simulate payment processing
+    toast({
+      title: "Обробка платежу",
+      description: "Ваш платіж обробляється...",
+    });
     
     // Simulate API call to backend
     setTimeout(() => {
       setIsLoading(false);
       
-      // Always succeed for demo purposes
+      // Simulate successful payment
       toast({
         title: "Оплата пройшла успішно!",
         description: "Ваше замовлення оформлено. Ми зв'яжемося з вами найближчим часом.",
       });
       onSuccess?.();
       // Navigate to success page
-      navigate('/payment/success');
-    }, 1500);
+      navigate(`/payment/success?order_id=${orderId}&amount=${amount}`);
+    }, 2000);
   };
 
   return (

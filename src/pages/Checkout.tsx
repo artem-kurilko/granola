@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Truck, CreditCard, Shield } from "lucide-react";
+import { ArrowLeft, Truck, CreditCard, Shield, AlertCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import LiqPayWidget from "@/components/LiqPayWidget";
@@ -31,6 +31,7 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const cartItems = [
     {
@@ -72,8 +73,8 @@ const Checkout = () => {
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
     const phoneValid = /^\+?[\d\s\-\(\)]{10,}$/.test(formData.phone);
     
-    setIsFormValid(allFieldsFilled && emailValid && phoneValid);
-  }, [formData]);
+    setIsFormValid(allFieldsFilled && emailValid && phoneValid && agreedToTerms);
+  }, [formData, agreedToTerms]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -86,7 +87,7 @@ const Checkout = () => {
     if (!isFormValid) {
       toast({
         title: "Помилка оформлення",
-        description: "Будь ласка, заповніть всі обов'язкові поля правильно.",
+        description: "Будь ласка, заповніть всі обов'язкові поля правильно та погодьтеся з умовами.",
         variant: "destructive",
       });
       return;
@@ -103,19 +104,28 @@ const Checkout = () => {
           description: "Ми зв'яжемося з вами для підтвердження замовлення.",
         });
         // Navigate to success page
-        navigate('/payment/success');
+        navigate(`/payment/success?order_id=${orderId}&amount=${total}`);
       }, 1500);
     }
   };
 
   const handlePaymentSuccess = () => {
+    toast({
+      title: "Оплата успішна!",
+      description: "Ваше замовлення оформлено та оплачено.",
+    });
     // Navigate to success page
-    navigate('/payment/success');
+    navigate(`/payment/success?order_id=${orderId}&amount=${total}`);
   };
 
   const handlePaymentError = () => {
+    toast({
+      title: "Помилка оплати",
+      description: "Сталася помилка при обробці платежу. Спробуйте ще раз.",
+      variant: "destructive",
+    });
     // Navigate to error page
-    navigate('/payment/error');
+    navigate(`/payment/error?error_code=PAYMENT_FAILED&error_message=Помилка обробки платежу`);
   };
 
   return (
@@ -182,6 +192,18 @@ const Checkout = () => {
                 </p>
               </div>
             </div>
+
+            {/* LiqPay Keys Info for Demo */}
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-start">
+                <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium mb-1">Демо режим</p>
+                  <p>Використовуються тестові ключі LiqPay</p>
+                  <p className="text-xs mt-1">Публічний: {import.meta.env.VITE_LIQPAY_PUBLIC_KEY}</p>
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Checkout Form */}
@@ -201,6 +223,7 @@ const Checkout = () => {
                         value={formData.firstName}
                         onChange={handleInputChange}
                         required
+                        className={!formData.firstName ? "border-red-300" : ""}
                       />
                     </div>
                     <div>
@@ -211,6 +234,7 @@ const Checkout = () => {
                         value={formData.lastName}
                         onChange={handleInputChange}
                         required
+                        className={!formData.lastName ? "border-red-300" : ""}
                       />
                     </div>
                   </div>
@@ -225,6 +249,7 @@ const Checkout = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
+                        className={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) && formData.email ? "border-red-300" : ""}
                       />
                     </div>
                     <div>
@@ -236,6 +261,8 @@ const Checkout = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
+                        placeholder="+380 XX XXX XX XX"
+                        className={!/^\+?[\d\s\-\(\)]{10,}$/.test(formData.phone) && formData.phone ? "border-red-300" : ""}
                       />
                     </div>
                   </div>
@@ -248,6 +275,7 @@ const Checkout = () => {
                       value={formData.address}
                       onChange={handleInputChange}
                       required
+                      className={!formData.address ? "border-red-300" : ""}
                     />
                   </div>
                   
@@ -260,6 +288,7 @@ const Checkout = () => {
                         value={formData.city}
                         onChange={handleInputChange}
                         required
+                        className={!formData.city ? "border-red-300" : ""}
                       />
                     </div>
                     <div>
@@ -270,6 +299,7 @@ const Checkout = () => {
                         value={formData.zip}
                         onChange={handleInputChange}
                         required
+                        className={!formData.zip ? "border-red-300" : ""}
                       />
                     </div>
                     <div>
@@ -335,9 +365,14 @@ const Checkout = () => {
                   <Separator />
                   
                   <div className="flex items-start space-x-2">
-                    <Checkbox id="terms" required />
+                    <Checkbox 
+                      id="terms" 
+                      checked={agreedToTerms}
+                      onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+                      required 
+                    />
                     <Label htmlFor="terms" className="text-sm">
-                      Я погоджуюсь з <a href="/public-offer" className="text-amber-600 hover:underline">умовами замовлення</a> та <a href="#" className="text-amber-600 hover:underline">політикою конфіденційності</a> *
+                      Я погоджуюсь з <Link to="/public-offer" className="text-amber-600 hover:underline">умовами замовлення</Link> та <a href="#" className="text-amber-600 hover:underline">політикою конфіденційності</a> *
                     </Label>
                   </div>
                 </form>
@@ -345,13 +380,24 @@ const Checkout = () => {
               
               <CardFooter>
                 {paymentMethod === "liqpay" ? (
-                  <LiqPayWidget
-                    amount={total}
-                    description={`Замовлення ${orderId}`}
-                    orderId={orderId}
-                    onPaymentSuccess={handlePaymentSuccess}
-                    onPaymentError={handlePaymentError}
-                  />
+                  <div className="w-full">
+                    {!isFormValid && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-sm text-red-800">
+                          Заповніть всі обов'язкові поля та погодьтеся з умовами для продовження оплати
+                        </p>
+                      </div>
+                    )}
+                    <div className={!isFormValid ? "opacity-50 pointer-events-none" : ""}>
+                      <LiqPayWidget
+                        amount={total}
+                        description={`Замовлення ${orderId}`}
+                        orderId={orderId}
+                        onPaymentSuccess={handlePaymentSuccess}
+                        onPaymentError={handlePaymentError}
+                      />
+                    </div>
+                  </div>
                 ) : (
                   <Button 
                     type="submit" 
